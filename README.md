@@ -6,44 +6,47 @@ last update: 6/26/2024
 # Kubernetes Log Ingest with OpenTelemetry & Dynatrace
 <!-- ------------------------ -->
 ## Overview 
-Duration: 10
+Total Duration: 20
 
 ### What You’ll Learn Today
-Provide a executive summary of the topic we're going to cover 
-- what is it?
-- why is it important?
-- who is the target audience/ persona
-- how does this benefit the audience/ persona?
-- What problem are we solving?
-- What is the value of this 
-- what will the audidence actually learn?
+In this lab we'll utilize the OpenTelemetry Collector deployed as a DaemonSet (Node Agent) to collect pod/container logs from a Kubernetes cluster and ship them to Dynatrace.
 
-![ENVISION THE FUTURE!](img/concepts.png)
+Lab tasks:
+1. Create a Kubernetes cluster on Google GKE
+2. Deploy OpenTelemetry's demo application, astronomy-shop
+3. Deploy OpenTelemetry Collector as a DaemonSet
+4. Configure OpenTelemetry Collector service pipeline for log enrichment
+5. Query and visualize logs in Dynatrace using DQL
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+![astronomy-shop logs](img/astronomy-shop_logs.png)
 
 <!-- -------------------------->
 ## Technical Specification 
-Duration: 5
+Duration: 2
 
-### Detail the technical requirements 
-- Technologies in use
-  - Versioning if relevant  
-- Relevant architecture/ network / traffic flow diagram
-- Prerequisites for setup
-  - VM specification/ container/  host sizing, 
-  - cli binaries / git repos/ other software needed
+### Technologies Used
+- [Dynatrace](https://www.dynatrace.com/trial)
+- [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine)
+  - tested on GKE v1.29.4-gke.1043002
+- [OpenTelemetry Demo astronomy-shop](https://opentelemetry.io/docs/demo/)
+  - tested on release 1.10.0
+- [Istio](https://istio.io/latest/docs/)
+  - tested on v1.22.1
+- [OpenTelemetry Collector - Dynatrace Distro](https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment)
+  - tested on v0.8.0
 
+#### Reference Architecture
+TODO
 
-![I'm a relevant image!](img/lab-environment.png)
-
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+#### Prerequisites
+- Google Cloud Account
+- Google Cloud Project
+- Google Cloud Access to Create and Manage GKE Clusters
+- Google CloudShell Access
 
 <!-- -------------------------->
 ## Setup
-Duration: 15
+Duration: 18
 
 ### Prerequisites
 
@@ -183,7 +186,7 @@ fetch logs
 | fields timestamp, loglevel, status, k8s.namespace.name, k8s.pod.name, k8s.container.name, content, log.file.path
 ```
 Result:\
-TODO Image
+![dql_filelog_receiver](img/dql_filelog_receiver.png)
 
 ##### Create `clusterrole` with read access to Kubernetes objects
 ```yaml
@@ -294,7 +297,7 @@ fetch logs
 | fields timestamp, loglevel, status, k8s.namespace.name, k8s.deployment.name, k8s.pod.name, k8s.container.name, app.label.component, content
 ```
 Result:\
-TODO Image
+![dql_k8sattributes_processor](img/dql_k8sattributes_processor.png)
 
 ##### Add `resourcedetection` processor (gcp)
 https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourcedetectionprocessor/README.md#gcp-metadata
@@ -332,7 +335,7 @@ fetch logs
 | fields timestamp, loglevel, status, cloud.account.id, k8s.cluster.name, k8s.namespace.name, k8s.deployment.name, content
 ```
 Result:\
-TODO Image
+![dql_resourcedetection_processor](img/dql_resourcedetection_processor.png)
 
 ##### Add `resource` processor (attributes)
 https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/resourceprocessor
@@ -377,7 +380,7 @@ fetch logs
 | limit 100
 ```
 Result:\
-TODO Image
+![dql_resource_processor](img/dql_resource_processor.png)
 
 <!-- ------------------------ -->
 ## Demo The New Functionality
