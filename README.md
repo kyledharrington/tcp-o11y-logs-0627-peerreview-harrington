@@ -144,8 +144,7 @@ spec:
 ```
 Command:
 ```sh
-cd opentelemetry/collector/logs
-kubectl apply -f otel-collector-logs-crd-01.yaml
+kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-01.yaml
 ```
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs created
@@ -223,7 +222,7 @@ k8sattributes:
 ```
 Command:
 ```sh
-kubectl apply -f otel-collector-logs-crd-02.yaml
+kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-02.yaml
 ```
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
@@ -257,7 +256,7 @@ rules:
 ```
 Command:
 ```sh
-kubectl apply -f otel-collector-k8s-clusterrole.yaml
+kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole.yaml
 ```
 Sample output:
 > clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole created
@@ -280,7 +279,7 @@ roleRef:
 ```
 Command:
 ```sh
-kubectl apply -f otel-collector-k8s-clusterrole-logs-crb.yaml
+kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-logs-crb.yaml
 ```
 Sample output:
 > clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-logs-crb created
@@ -308,7 +307,7 @@ processors:
 ```
 Command:
 ```sh
-kubectl apply -f otel-collector-logs-crd-03.yaml
+kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-03.yaml
 ```
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
@@ -355,7 +354,7 @@ processors:
 ```
 Command:
 ```sh
-kubectl apply -f otel-collector-logs-crd-04.yaml
+kubectl apply -f opentelemetry/collector/logs/otel-collector-logs-crd-04.yaml
 ```
 Sample output:
 > opentelemetrycollector.opentelemetry.io/dynatrace-logs configured
