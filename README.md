@@ -185,6 +185,54 @@ fetch logs
 Result:\
 TODO Image
 
+##### Create `clusterrole` with read access to Kubernetes objects
+```yaml
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: otel-collector-k8s-clusterrole
+rules:
+- apiGroups: [""]
+  resources: ["pods", "namespaces", "nodes"]
+  verbs: ["get", "watch", "list"]
+- apiGroups: ["apps"]
+  resources: ["replicasets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["extensions"]
+  resources: ["replicasets"]
+  verbs: ["get", "list", "watch"]
+```
+Command:
+```sh
+kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole.yaml
+```
+Sample output:
+> clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole created
+
+##### Create `clusterrolebinding` for OpenTelemetry Collector service account
+```yaml
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: otel-collector-k8s-clusterrole-logs-crb
+subjects:
+- kind: ServiceAccount
+  name: dynatrace-logs-collector
+  namespace: dynatrace
+roleRef:
+  kind: ClusterRole
+  name: otel-collector-k8s-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+```
+Command:
+```sh
+kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-logs-crb.yaml
+```
+Sample output:
+> clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-logs-crb created
+
 ##### Add `k8sattributes` processor
 https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attributes-processor
 ```yaml
@@ -235,54 +283,6 @@ kubectl get pods -n dynatrace
 Sample output:
 > NAME                             READY   STATUS    RESTARTS   AGE\
 > dynatrace-logs-collector-dns4x   1/1     Running   0          1m
-
-##### Create `clusterrole` with read access to Kubernetes objects
-```yaml
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: otel-collector-k8s-clusterrole
-rules:
-- apiGroups: [""]
-  resources: ["pods", "namespaces", "nodes"]
-  verbs: ["get", "watch", "list"]
-- apiGroups: ["apps"]
-  resources: ["replicasets"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["extensions"]
-  resources: ["replicasets"]
-  verbs: ["get", "list", "watch"]
-```
-Command:
-```sh
-kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole.yaml
-```
-Sample output:
-> clusterrole.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole created
-
-##### Create `clusterrolebinding` for OpenTelemetry Collector service account
-```yaml
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: otel-collector-k8s-clusterrole-logs-crb
-subjects:
-- kind: ServiceAccount
-  name: dynatrace-logs-collector
-  namespace: dynatrace
-roleRef:
-  kind: ClusterRole
-  name: otel-collector-k8s-clusterrole
-  apiGroup: rbac.authorization.k8s.io
-```
-Command:
-```sh
-kubectl apply -f opentelemetry/rbac/otel-collector-k8s-clusterrole-logs-crb.yaml
-```
-Sample output:
-> clusterrolebinding.rbac.authorization.k8s.io/otel-collector-k8s-clusterrole-logs-crb created
 
 ##### Query logs in Dynatrace
 DQL:
