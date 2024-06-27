@@ -1,7 +1,6 @@
 id: dt-k8s-otel-logs-lab
 summary: dynatrace log ingest for kubernetes using opentelemetry collector
 author: Tony Pope-Cruz
-last update: 6/26/2024
 
 # Kubernetes Log Ingest with OpenTelemetry & Dynatrace
 <!-- ------------------------ -->
