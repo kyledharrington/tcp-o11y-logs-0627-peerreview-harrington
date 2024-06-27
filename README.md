@@ -84,7 +84,7 @@ Ingest OpenTelemetry traces
 In your GCP CloudShell Terminal:
 ```
 DT_ENDPOINT=https://{your-environment-id}.live.dynatrace.com/api/v2/otlp
-DT_API_TOKEN=
+DT_API_TOKEN={your-api-token}
 ```
 ### OpenTelemetry Collector - Dynatrace Distro
 https://docs.dynatrace.com/docs/extend-dynatrace/opentelemetry/collector/deployment
@@ -395,10 +395,10 @@ TODO
 By completing this lab, you've successfully deployed the OpenTelemetry Collector to collect logs, enrich log attributes for better context, and ship those logs to Dynatrace for analysis.
 - The OpenTelemetry Collector was deployed as a DaemonSet, behaving as an Agent running on each Node
 - The Dynatrace Distro of OpenTelemetry Collector includes supported modules needed to ship logs to Dynatrace
-- The `filelog` receiver scrapes logs from the Node filesystem and parses the contents
-- The `k8sattributes` processor enriches the logs with Kubernetes attributes
-- The `resourcedetection` processor enriches the logs with cloud and cluster (GCP/GKE) attributes
-- The `resource` processor enriches the logs with custom (resource) attributes
+  - The `filelog` receiver scrapes logs from the Node filesystem and parses the contents
+  - The `k8sattributes` processor enriches the logs with Kubernetes attributes
+  - The `resourcedetection` processor enriches the logs with cloud and cluster (GCP/GKE) attributes
+  - The `resource` processor enriches the logs with custom (resource) attributes
 - Dynatrace DQL (via Notebooks) allows you to perform powerful queries and analysis of the log data
 
 <!-- ------------------------ -->
