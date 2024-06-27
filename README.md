@@ -24,7 +24,7 @@ Lab tasks:
 ## Technical Specification 
 Duration: 2
 
-### Technologies Used
+#### Technologies Used
 - [Dynatrace](https://www.dynatrace.com/trial)
 - [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine)
   - tested on GKE v1.29.4-gke.1043002
@@ -77,6 +77,9 @@ Ingest logs
 Ingest metrics
 Ingest OpenTelemetry traces
 ```
+
+#### (optional) Import Notebook into Dynatrace
+[notebook](/k8s-otel-o11y-logs_dt_notebook.json)
 
 #### Define workshop user variables
 In your GCP CloudShell Terminal:
@@ -242,8 +245,8 @@ https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attrib
 k8sattributes:
     auth_type: "serviceAccount"
     passthrough: false
-    # filter:
-    #  node_from_env_var: KUBE_NODE_NAME
+        filter:
+        node_from_env_var: KUBE_NODE_NAME
     extract:
         metadata:
         - k8s.pod.name
@@ -261,13 +264,13 @@ k8sattributes:
     pod_association:
         - sources:
             - from: resource_attribute
-            name: k8s.pod.uid
+              name: k8s.pod.uid
         - sources:
             - from: resource_attribute
-            name: k8s.pod.name
-        #- sources:
-        #    - from: resource_attribute
-        #      name: k8s.pod.ip
+              name: k8s.pod.name
+        - sources:
+            - from: resource_attribute
+              name: k8s.pod.ip
         - sources:
             - from: connection
 ```
@@ -384,40 +387,21 @@ Result:\
 
 <!-- ------------------------ -->
 ## Demo The New Functionality
-Duration: 15
-
-### Make the sausage
-- execute the demo on how to solve the problem statement you posed
-- This might just be more steps (?)
-- This might just be a power point presentation
-
-![I'm a relevant image!](img/livedemo.png)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+TODO
 
 <!-- -------------------------->
 ## Wrap Up
-Duration: 5
+
 ### What You Learned Today 
-Review all the points you made at the start:
-- What did the audience just learn?
-- Why is this gained knowledge important?
-- How will this knowledge now benefit the audience/ persona?
-- What problem have we solved?
-- Q&A 
+By completing this lab, you've successfully deployed the OpenTelemetry Collector to collect logs, enrich log attributes for better context, and ship those logs to Dynatrace for analysis.
+- The OpenTelemetry Collector was deployed as a DaemonSet, behaving as an Agent running on each Node
+- The Dynatrace Distro of OpenTelemetry Collector includes supported modules needed to ship logs to Dynatrace
+- The `filelog` receiver scrapes logs from the Node filesystem and parses the contents
+- The `k8sattributes` processor enriches the logs with Kubernetes attributes
+- The `resourcedetection` processor enriches the logs with cloud and cluster (GCP/GKE) attributes
+- The `resource` processor enriches the logs with custom (resource) attributes
+- Dynatrace DQL (via Notebooks) allows you to perform powerful queries and analysis of the log data
 
 <!-- ------------------------ -->
 ### Supplemental Material
-Duration: 1
-
-- Include all refence documentation links here
-  - Any links included in the code lab should be here
-  - Relevant links not explicitcly called out about (like code lab formatting beow)
-
-- [Markdown Formatting Refernce](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-- [Codelab Formatting Guide](https://github.com/googlecodelabs/tools/blob/master/FORMAT-GUIDE.md)
-
-`have a great time`
-
-![kthnxbai](img/waving.gif)
+TODO
