@@ -11,7 +11,7 @@ spec:
   mode: "daemonset"
   image: "ghcr.io/dynatrace/dynatrace-otel-collector/dynatrace-otel-collector:latest"
   observability:
-    metrics: 
+    metrics:
       enableMetrics: true
   resources:
     limits:
@@ -126,7 +126,7 @@ spec:
       batch:
         send_batch_max_size: 1000
         timeout: 30s
-        send_batch_size : 800
+        send_batch_size: 800
       resource:
         attributes:
         - key: k8s.pod.ip
