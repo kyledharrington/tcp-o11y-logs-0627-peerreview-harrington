@@ -79,6 +79,10 @@ Ingest OpenTelemetry traces
 
 [See Realted Dynatrace API Token Creation Documentation](https://docs.dynatrace.com/docs/dynatrace-api/basics/dynatrace-api-authentication#create-token)
 
+![access tokens!](/img/tokenscope.png)
+
+--- 
+
 #### (optional) Import Notebook into Dynatrace
 [notebook](/k8s-otel-o11y-logs_dt_notebook.json)
 
